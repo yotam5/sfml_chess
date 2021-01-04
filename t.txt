@@ -1,0 +1,12 @@
+BlackBishop.png
+BlackKing.png
+BlackKnight.png
+BlackPawn.png
+BlackQueen.png
+BlackRook.png
+WhiteBishop.png
+WhiteKing.png
+WhiteKnight.png
+WhitePawn.png
+WhiteQueen.png
+WhiteRook.png

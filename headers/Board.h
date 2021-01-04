@@ -7,6 +7,7 @@
 
 #include "../source/Piece.cpp"
 #include <map>
+#include <array>
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -19,13 +20,31 @@
 class Board
 {
 public:
-    Board(std::map<std::string,sf::Texture*> texturesPointer); //pointer to the textures
+    Board();
     virtual ~Board();
     void startGame();
     void draw(sf::RenderTarget &target) const;
     static int clickToPlace(double);
+    void move(int x, int y);
+    bool isEmpty(int x, int y) const;
+    const std::string assertsFolderName = "./asserts/";
+    const std::array<std::string, 12> piecesNames = {"BlackBishop",
+                                                     "BlackKing",
+                                                     "BlackKnight",
+                                                     "BlackPawn",
+                                                     "BlackQueen",
+                                                     "BlackRook",
+                                                     "WhiteBishop",
+                                                     "WhiteKing",
+                                                     "WhiteKnight",
+                                                     "WhitePawn",
+                                                     "WhiteQueen",
+                                                     "WhiteRook"};
+
 private:
-    void initBoard(); 
+    void initBoard();
+    void initVariables();
+    void initTexture();
     Piece *board[BOARD_SIZE][BOARD_SIZE];
     std::map<std::string, sf::Texture *> texturePointer;
 };

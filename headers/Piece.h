@@ -28,6 +28,7 @@ public:
     virtual void setName(std::string);
     virtual void render(sf::RenderTarget &target);
     virtual const sf::Vector2f &getPosition() const;
+    virtual void setPosition(double x, double y,bool arrayMode = false);
     //change pos and more stuff?
 };
 

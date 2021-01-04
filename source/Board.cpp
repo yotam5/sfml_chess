@@ -3,11 +3,12 @@
 #include "../headers/Board.h"
 
 //constructor
-Board::Board(const std::map<std::string, sf::Texture *> texturesPointer)
+Board::Board()
 {
+    this->initVariables();
     this->initBoard();
-    this->texturePointer = texturesPointer;
-    this->board[0][1] = new Piece(0, 1, this->texturePointer["PIECES"]);
+    this->initTexture();
+    this->board[0][1] = new Piece(0, 1, this->texturePointer["WhiteKing"]);
 }
 
 Board::~Board()
@@ -19,6 +20,34 @@ Board::~Board()
             delete this->board[i][k];
         }
     }
+    for (auto &texture : this->texturePointer)
+    {
+        delete texture.second;
+    }
+}
+
+//init variables
+void Board::initVariables()
+{
+}
+
+//check if availabe 
+bool Board::isEmpty(int x, int y) const
+{
+    return this->board[y][x] == nullptr; //cuz array
+}
+
+//init texture
+void Board::initTexture()
+{
+    for (auto pieceName : this->piecesNames)
+    {
+        this->texturePointer[pieceName] = new sf::Texture;
+        if (!this->texturePointer[pieceName]->loadFromFile(this->assertsFolderName + pieceName + ".png"))
+        {
+            throw std::invalid_argument("ERROR LOADING " + pieceName + ".png\n");
+        }
+    }
 }
 
 //draw
@@ -28,33 +57,47 @@ void Board::draw(sf::RenderTarget &target) const
     {
         for (int k = 0; k < BOARD_SIZE; k++)
         {
-            if(this->board[i][k]!=nullptr)
+            if (this->board[i][k] != nullptr)
             {
                 this->board[i][k]->render(target);
             }
         }
-    }}
+    }
+}
 
 //init game
-void Board::startGame() //need firstly all calsses
+void Board::startGame() //NOTE: need all classes before that
 {
+    std::array<std::string, 16> order = {
+        "Rook", "Knight", "Bishop", "Queen", "King", "Knight", "Bishop", "Rook",
+        "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"};
+    std::string prefix = "White"; //TODO: implement loading game pieces
 }
 
 //click to position on board
 int Board::clickToPlace(double value)
 {
-    if(value < 0 || value > 640)
+    if (value < 0 || value > 640)
     {
         return -1;
     }
     int key = (int)value;
     key /= 10;
     int loc = 0;
-    for(int i = 8; i < 64 && key>= i ;i+=8)
+    for (int i = 8; i < 64 && key >= i; i += 8)
     {
         ++loc;
     }
     return loc;
+}
+
+//move piece FIXME
+void Board::move(int nx, int ny)
+{
+
+    this->board[nx][ny] = this->board[0][1];
+    this->board[nx][ny]->setPosition(nx, ny,true);
+    this->board[0][1] = nullptr;
 }
 
 //init board

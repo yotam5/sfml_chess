@@ -9,7 +9,6 @@ class King : public Piece
 public:
     King(int posX, int posY, const sf::Texture *texture, std::string name = "King");
     ~King();
-
 private:
 };
 

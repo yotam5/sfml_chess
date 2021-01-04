@@ -26,24 +26,19 @@ Game::Game()
 //init textures
 void Game::initTexture() //jpeg error~
 {
-    this->textures["Board"] = new sf::Texture;
-    if (!this->textures["Board"]->loadFromFile("./asserts/board1.png"))
+    this->boardTexture = new sf::Texture;
+    if (!this->boardTexture->loadFromFile("./asserts/board1.png"))
     {
         throw std::invalid_argument("ERROR LOADING BOARD\n");
-    }
-    this->textures["PIECES"] = new sf::Texture;
-    if (!this->textures["PIECES"]->loadFromFile("./asserts/WhiteKing.png"))
-    {
-        throw std::invalid_argument("ERROR LOADING TEST\n");
     }
 }
 
 //initialize variables
 void Game::initVariables()
 {
-    this->board.setTexture(*textures["Board"]);
+    this->board.setTexture((*this->boardTexture));
     this->board.setPosition(0, 0);
-    this->EngineBoard = new Board(textures);
+    this->EngineBoard = new Board();
 }
 
 //destructor
@@ -53,7 +48,8 @@ Game::~Game()
     {
         delete i.second;
     }
-    delete EngineBoard;
+    delete EngineBoard; //NOTE: check out segment fault tmporarly
+    delete boardTexture;
 }
 
 //render game
@@ -74,14 +70,41 @@ void Game::updatePollEvents()
         {
             this->window->close();
         }
-        else if(ev.type == sf::Event::MouseButtonPressed) //works as expected
+        else if (ev.type == sf::Event::MouseButtonPressed) //works as expected
         {
-            //handle position stuff
-            std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
+            this->handleTurns();
         }
     }
 }
 
+//handle if press on mouse
+void Game::handleTurns()
+{
+    //handle position stuff
+    auto MouseData = sf::Mouse::getPosition(*this->window);
+    //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
+    int x = Board::clickToPlace(MouseData.x);
+    int y = Board::clickToPlace(MouseData.y);
+    if (!EngineBoard->isEmpty(x, y))
+    {
+        state = CHOOSE_PIECE;
+        this->xChoosen = x;
+        this->yChoosen = y;
+    }
+    if (state == CHOOSE_PIECE && EngineBoard->isEmpty(x, y))
+    {
+        state = CHOOSE_PLACE;
+    }
+    if (state == CHOOSE_PLACE)
+    {
+        std::cout << "player choose piece and place to put" << std::endl;
+        state = WAITING;
+    }
+    //this->EngineBoard->move(x, y);
+}
+
+
+//run game
 void Game::run()
 {
     while (this->window->isOpen())

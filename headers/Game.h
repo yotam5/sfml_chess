@@ -18,11 +18,17 @@ class Game
 {
     //friend Board;
 private:
+    enum States
+    {
+        CHOOSE_PIECE,
+        CHOOSE_PLACE,
+        WAITING
+    };
     //sfml variables
     sf::RenderWindow *window;
     std::map<std::string, sf::Texture *> textures;
     sf::Sprite board; //display board (sfml)
-    sf::Texture boardTexture;
+    sf::Texture *boardTexture;
     //board class
     Board *EngineBoard;
 
@@ -36,6 +42,12 @@ private:
     void update();
     void render();
 
+    //general
+    void handleTurns();
+
+    States state = WAITING;
+    int xChoosen;
+    int yChoosen;
 public:
     Game();
     virtual ~Game();

@@ -22,6 +22,19 @@ Piece::~Piece()
     //delete this->texture;
 }
 
+//set position
+void Piece::setPosition(double x, double y, bool arrayMode)
+{
+    if (!arrayMode)
+    {
+        this->sprite.setPosition(y * 80, x * 80);
+    }
+    else
+    {
+        this->sprite.setPosition(x * 80, y * 80);
+    }
+}
+
 //render
 void Piece::render(sf::RenderTarget &target)
 {

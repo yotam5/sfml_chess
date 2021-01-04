@@ -9,31 +9,37 @@
 #include <map>
 #include <iostream>
 
-//mine
+//NOTE: need to include here the source for it to work also use pragma once on classes
 #include "../source/Piece.cpp"
 #include "../source/Board.cpp"
+//make bool turn and draw new after click?
 
 class Game
 {
     //friend Board;
 private:
+    //sfml variables
     sf::RenderWindow *window;
-    void initWindow();
-
     std::map<std::string, sf::Texture *> textures;
-    void initTexture();
     sf::Sprite board; //display board (sfml)
-    Piece *test1;
+    sf::Texture boardTexture;
+    //board class
     Board *EngineBoard;
+
+    //initializers
+    void initTexture();
+    void initWindow();
+    void initVariables();
+
+    //update
+    void updatePollEvents();
+    void update();
+    void render();
 
 public:
     Game();
     virtual ~Game();
-
     void run();
-    void update();
-    void updatePollEvents();
-    void render();
 };
 
 #endif

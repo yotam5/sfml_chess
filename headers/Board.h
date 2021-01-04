@@ -23,6 +23,7 @@ public:
     virtual ~Board();
     void startGame();
     void draw(sf::RenderTarget &target) const;
+    static int clickToPlace(double);
 private:
     void initBoard(); 
     Piece *board[BOARD_SIZE][BOARD_SIZE];

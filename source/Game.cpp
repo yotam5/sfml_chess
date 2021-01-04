@@ -2,6 +2,7 @@
 #pragma once
 #include "../headers/Game.h"
 
+//init window
 void Game::initWindow()
 {
     this->window = new sf::RenderWindow(sf::VideoMode(640, 640), "Chess",
@@ -19,16 +20,14 @@ Game::Game()
 {
     this->initWindow();
     this->initTexture();
-    this->board.setTexture(*textures["BOARD"]);
-    this->board.setPosition(0, 0);
-    this->test1 = new Piece("name", 0, 0, this->textures["PIECES"]);
-    this->EngineBoard = new Board(textures);
+    this->initVariables();
 }
 
+//init textures
 void Game::initTexture() //jpeg error~
 {
-    this->textures["BOARD"] = new sf::Texture;
-    if (!this->textures["BOARD"]->loadFromFile("./asserts/board1.png"))
+    this->textures["Board"] = new sf::Texture;
+    if (!this->textures["Board"]->loadFromFile("./asserts/board1.png"))
     {
         throw std::invalid_argument("ERROR LOADING BOARD\n");
     }
@@ -39,6 +38,15 @@ void Game::initTexture() //jpeg error~
     }
 }
 
+//initialize variables
+void Game::initVariables()
+{
+    this->board.setTexture(*textures["Board"]);
+    this->board.setPosition(0, 0);
+    this->EngineBoard = new Board(textures);
+}
+
+//destructor
 Game::~Game()
 {
     for (auto &i : this->textures)
@@ -48,12 +56,11 @@ Game::~Game()
     delete EngineBoard;
 }
 
-
+//render game
 void Game::render()
 {
     this->window->clear();
     this->window->draw(board);
-    this->test1->render(*this->window);
     this->EngineBoard->draw(*this->window);
     this->window->display();
 }
@@ -66,6 +73,11 @@ void Game::updatePollEvents()
         if (ev.type == sf::Event::Closed)
         {
             this->window->close();
+        }
+        else if(ev.type == sf::Event::MouseButtonPressed) //works as expected
+        {
+            //handle position stuff
+            std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
         }
     }
 }

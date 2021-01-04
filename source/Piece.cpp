@@ -6,16 +6,15 @@
 //https://www.iloveimg.com/crop-image
 
 //constructor
-Piece::Piece(std::string name, float posX, float posY, const sf::Texture *texture)
+Piece::Piece(int posX, int posY, const sf::Texture *texture, std::string name)
 {
     this->setName(name);
     this->sprite.setTexture(*texture);
-    this->sprite.setPosition(posX, posY);
+    this->sprite.setPosition(posY * 80, posX * 80); //NOTE: because of coordinate its (Y,X)
 }
 
 Piece::Piece()
 {
-
 }
 
 Piece::~Piece()

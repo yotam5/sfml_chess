@@ -8,7 +8,7 @@
 class King : public Piece
 {
 public:
-    King(std::string name, float posX, float posY, sf::Texture *texture);
+    King(std::string name, float posX, float posY, const sf::Texture *texture);
     ~King();
 private:
 };

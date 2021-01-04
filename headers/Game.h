@@ -11,17 +11,21 @@
 
 //mine
 #include "../source/Piece.cpp"
+#include "../source/Board.cpp"
 
 class Game
 {
+    //friend Board;
 private:
     sf::RenderWindow *window;
     void initWindow();
 
-    std::map<std::string, sf::Texture*> textures;
+    std::map<std::string, sf::Texture *> textures;
     void initTexture();
-    sf::Sprite board;
+    sf::Sprite board; //display board (sfml)
     Piece *test1;
+    Board *EngineBoard;
+
 public:
     Game();
     virtual ~Game();

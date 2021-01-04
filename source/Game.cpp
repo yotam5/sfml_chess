@@ -1,3 +1,5 @@
+
+#pragma once
 #include "../headers/Game.h"
 
 void Game::initWindow()
@@ -18,19 +20,20 @@ Game::Game()
     this->initWindow();
     this->initTexture();
     this->board.setTexture(*textures["BOARD"]);
-    this->board.setPosition(0,0);
-    this->test1 = new Piece("name",0,0,this->textures["PIECES"]);
+    this->board.setPosition(0, 0);
+    this->test1 = new Piece("name", 0, 0, this->textures["PIECES"]);
+    this->EngineBoard = new Board(textures);
 }
 
 void Game::initTexture() //jpeg error~
 {
     this->textures["BOARD"] = new sf::Texture;
-    if(!this->textures["BOARD"]->loadFromFile("./asserts/board1.png"))
+    if (!this->textures["BOARD"]->loadFromFile("./asserts/board1.png"))
     {
         throw std::invalid_argument("ERROR LOADING BOARD\n");
     }
     this->textures["PIECES"] = new sf::Texture;
-    if(!this->textures["PIECES"]->loadFromFile("./asserts/WhiteKing.png"))
+    if (!this->textures["PIECES"]->loadFromFile("./asserts/WhiteKing.png"))
     {
         throw std::invalid_argument("ERROR LOADING TEST\n");
     }
@@ -38,17 +41,20 @@ void Game::initTexture() //jpeg error~
 
 Game::~Game()
 {
-    for(auto &i : this->textures)
+    for (auto &i : this->textures)
     {
         delete i.second;
     }
+    delete EngineBoard;
 }
+
 
 void Game::render()
 {
     this->window->clear();
     this->window->draw(board);
     this->test1->render(*this->window);
+    this->EngineBoard->draw(*this->window);
     this->window->display();
 }
 

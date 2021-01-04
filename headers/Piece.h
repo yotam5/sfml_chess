@@ -19,7 +19,8 @@ private:
     //functions
 public:
     //constructor and destructor
-    Piece(std::string name, float posX, float posY, sf::Texture *texture);
+    Piece(std::string name, float posX, float posY, const sf::Texture *texture);
+    Piece();
     virtual ~Piece();
 
     //functions

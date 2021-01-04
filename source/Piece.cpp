@@ -1,14 +1,21 @@
+
+#pragma once //including .cpp need also #pragma etc
+
 #include "../headers/Piece.h"
 
 //https://www.iloveimg.com/crop-image
 
 //constructor
-Piece::Piece(std::string name, float posX, float posY, sf::Texture *texture)
+Piece::Piece(std::string name, float posX, float posY, const sf::Texture *texture)
 {
-    this->texture = texture;
     this->setName(name);
-    this->sprite.setTexture(*this->texture);
+    this->sprite.setTexture(*texture);
     this->sprite.setPosition(posX, posY);
+}
+
+Piece::Piece()
+{
+
 }
 
 Piece::~Piece()

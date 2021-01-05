@@ -6,9 +6,12 @@
 #define BOARD_H
 
 #include "../source/Piece.cpp"
+#include "../source/King.cpp"
+
 #include <map>
 #include <array>
 #include <string>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #define BOARD_SIZE 8

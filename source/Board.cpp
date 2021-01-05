@@ -1,5 +1,6 @@
 //board class
 
+#pragma once
 #include "../headers/Board.h"
 
 //constructor
@@ -8,7 +9,7 @@ Board::Board()
     this->initVariables();
     this->initBoard();
     this->initTexture();
-    this->board[0][1] = new Piece(0, 1, this->texturePointer["WhiteKing"]);
+    this->board[0][1] = new King(0, 1, this->texturePointer["WhiteKing"]);
 }
 
 Board::~Board()
@@ -31,7 +32,7 @@ void Board::initVariables()
 {
 }
 
-//check if availabe 
+//check if availabe
 bool Board::isEmpty(int x, int y) const
 {
     return this->board[y][x] == nullptr; //cuz array
@@ -92,12 +93,19 @@ int Board::clickToPlace(double value)
 }
 
 //move piece FIXME
-void Board::move(int nx, int ny)
+void Board::move(int nx, int ny) //the new position need change
 {
-
-    this->board[nx][ny] = this->board[0][1];
-    this->board[nx][ny]->setPosition(nx, ny,true);
-    this->board[0][1] = nullptr;
+    auto l = this->board[0][1]->getPossiblePositions(*board);
+    auto p = std::make_pair(nx, ny);
+    for (auto k : l)
+    {
+        if (k == p)
+        {
+            this->board[nx][ny] = this->board[0][1];
+            this->board[0][1] = nullptr;
+            this->board[nx][ny]->setPositionOnBoard(nx,ny);
+        }
+    }
 }
 
 //init board

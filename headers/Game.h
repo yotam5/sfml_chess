@@ -5,13 +5,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include "../source/Board.cpp"
+
 //c++
 #include <map>
 #include <iostream>
 
 //NOTE: need to include here the source for it to work also use pragma once on classes
-#include "../source/Piece.cpp"
-#include "../source/Board.cpp"
+
 //make bool turn and draw new after click?
 
 class Game

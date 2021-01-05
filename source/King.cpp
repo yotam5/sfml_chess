@@ -5,12 +5,8 @@
 const std::array<std::pair<int, int>, 8> King::directions = {UP, DOWN, LEFT, RIGHT,
                                                              DiagnolDownL, DiagnolDownR, DiagnolUpL, DiagnolUpR};
 
-King::King(int row, int column, const sf::Texture *texture, std::string name)
-    : Piece(row, column, texture, name)
-{
-}
-
-void King::initVariables()
+King::King(int row, int column, const sf::Texture *texture, Color color, std::string name)
+    : Piece(row, column, texture, color, name)
 {
 }
 

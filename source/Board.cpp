@@ -9,8 +9,8 @@ Board::Board()
     this->initVariables();
     this->initBoard();
     this->initTexture();
-    this->board[0][1] = new King(0, 1, this->texturePointer["WhiteKing"]);
-    //this->board[4][4] = new Queen(4,4,this->texturePointer["BlackQuee"]);
+    this->board[0][1] = new King(0, 1, this->texturePointer["WhiteKing"],WHITE);
+    this->board[4][4] = new Queen(4,4,this->texturePointer["BlackQueen"],BLACK);
 }
 
 //destructor
@@ -97,6 +97,18 @@ int Board::clickToPlace(double value)
     return loc;
 }
 
+//overload subscript
+const Piece* Board::operator()(int row, int col) const
+{
+    return this->board[row][col];
+}
+
+//get color in place
+Color Board::getColor(int row, int col) const
+{
+    return this->board[row][col]->getColor();
+}
+
 //move piece one board return boolean if move has been done
 bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new position need change
 {
@@ -107,6 +119,13 @@ bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new
     {
         if (k == p)
         {
+            std::cout << rowTo << columnTo <<"f"<<std::endl;
+            if(this->board[rowTo][columnTo] != nullptr) //NOTE make this a function for general eat cases
+            {
+                delete this->board[rowTo][columnTo];
+                this->board[rowTo][columnTo] = nullptr;
+                std::cout << "the queen ate" << std::endl;
+            }
             this->board[rowTo][columnTo] = this->board[rowFrom][columnFrom];
             this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);
             this->board[rowTo][columnTo]->setPositionOnBoard(rowTo, columnTo);

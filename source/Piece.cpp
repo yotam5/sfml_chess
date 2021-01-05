@@ -6,13 +6,14 @@
 //https://www.iloveimg.com/crop-image
 
 //constructor
-Piece::Piece(int row, int column, const sf::Texture *texture, std::string name)
+Piece::Piece(int row, int column, const sf::Texture *texture,Color color, std::string name)
 {
     this->setName(name);
     this->sprite.setTexture(*texture);
     this->sprite.setPosition(column * 80, row * 80); //NOTE: because of coordinate its (Y,X)
     this->locationOnBoard.first = row;               //FIXME just for any case remember
     this->locationOnBoard.second = column;
+    this->color = color;
 }
 
 Piece::Piece()
@@ -35,6 +36,18 @@ void Piece::setPosition(double row, double column, bool arrayMode)
     {
         this->sprite.setPosition(row * 80, column * 80);
     }
+}
+
+//set color
+void Piece::setColor(Color color)
+{
+    this->color = color;
+}
+
+//get Color
+Color Piece::getColor() const
+{
+    return this->color;
 }
 
 //get position on board

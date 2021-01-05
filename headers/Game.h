@@ -6,7 +6,6 @@
 #include <SFML/System.hpp>
 
 #include "../source/Board.cpp"
-#include "../source/Board.cpp"
 //c++
 #include <map>
 #include <iostream>
@@ -19,7 +18,7 @@ class Game
 {
     //friend Board;
 private:
-    enum States
+    enum States //game states
     {
         CHOOSE_PIECE,
         CHOOSE_PLACE,
@@ -46,9 +45,11 @@ private:
     //general
     void handleTurns();
 
-    States state = WAITING;
+    States currentState = WAITING;
+    Color currentPlayer = WHITE;
     int rowChoose;
     int columnChoose;
+    sf::View view;
 public:
     Game();
     virtual ~Game();

@@ -40,6 +40,8 @@ void Game::initVariables()
     this->board.setPosition(0, 0);
     this->rowChoose = 0;
     this->columnChoose = 0;
+    this->currentPlayer = WHITE;
+    this->currentState = WAITING;
     this->EngineBoard = new Board();
 }
 
@@ -74,7 +76,7 @@ void Game::updatePollEvents()
         }
         else if (ev.type == sf::Event::MouseButtonPressed) //works as expected?
         {
-            this->handleTurns(); //FIXME segment fault
+            this->handleTurns();
         }
     }
 }
@@ -87,21 +89,27 @@ void Game::handleTurns()
     //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
     int column = Board::clickToPlace(MouseData.x);
     int row = Board::clickToPlace(MouseData.y);
-    if (!EngineBoard->isEmpty(row, column))
+
+    if (!EngineBoard->isEmpty(row, column) &&
+        EngineBoard->getColor(row, column) == this->currentPlayer) //FIXME ?
     {
-        state = CHOOSE_PIECE;
+        this->currentState = CHOOSE_PIECE;
         this->rowChoose = row;
         this->columnChoose = column;
     }
-    else if (state == CHOOSE_PIECE /*&& EngineBoard->isEmpty(row, column)*/) //NOTE: it can be nonempty (eaten) need to implement
+    else if (this->currentState == CHOOSE_PIECE ) //NOTE: it can be nonempty (eaten) need to implement
     {
-        state = CHOOSE_PLACE;
+        this->currentState = CHOOSE_PLACE;
     }
-    if (state == CHOOSE_PLACE)
+    if (this->currentState == CHOOSE_PLACE)
     {
-        this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose);
-        std::cout << "player choose piece and place to put" << std::endl;
-        state = WAITING;
+        //if the move is valid
+        if (this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose))
+        {
+            std::cout << "player choose piece and place to put" << std::endl;
+            this->currentState = WAITING;
+            this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
+        }
     }
 }
 

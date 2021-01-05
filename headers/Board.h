@@ -32,6 +32,8 @@ public:
     static int clickToPlace(double);
     bool move(int rowTo, int columnTo, int rowFrom, int columnFrom);
     bool isEmpty(int x, int y) const;
+    const Piece* operator()(int row, int col) const;
+    Color getColor(int row, int col) const;
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
                                                      "BlackKing",

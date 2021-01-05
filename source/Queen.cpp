@@ -7,8 +7,8 @@ const std::array<std::pair<int, int>, 8> Queen::directions = {UP, DOWN, LEFT, RI
                                                               DiagnolDownL, DiagnolDownR, DiagnolUpL, DiagnolUpR};
 
 //constructor
-Queen::Queen(int row, int column, const sf::Texture *texture, std::string name)
-    : Piece(row, column, texture, name)
+Queen::Queen(int row, int column, const sf::Texture *texture,Color color ,std::string name)
+    : Piece(row, column, texture,color, name)
 {
 }
 
@@ -38,7 +38,8 @@ std::vector<std::pair<int, int>> Queen::getPossiblePositions(const std::array<st
                 locations.push_back(std::make_pair(row, column));
                 if(board[row][column] != nullptr) //if reached to a solider can move after eat
                 {
-                    break; 
+                    //std::cout <<row<<column<<std::endl;
+                    break;
                 }
             }
             

@@ -38,6 +38,8 @@ void Game::initVariables()
 {
     this->board.setTexture((*this->boardTexture));
     this->board.setPosition(0, 0);
+    this->rowChoose = 0;
+    this->columnChoose = 0;
     this->EngineBoard = new Board();
 }
 
@@ -70,9 +72,9 @@ void Game::updatePollEvents()
         {
             this->window->close();
         }
-        else if (ev.type == sf::Event::MouseButtonPressed) //works as expected
+        else if (ev.type == sf::Event::MouseButtonPressed) //works as expected?
         {
-            this->handleTurns();
+            this->handleTurns(); //FIXME segment fault
         }
     }
 }
@@ -83,26 +85,25 @@ void Game::handleTurns()
     //handle position stuff
     auto MouseData = sf::Mouse::getPosition(*this->window);
     //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
-    int x = Board::clickToPlace(MouseData.x);
-    int y = Board::clickToPlace(MouseData.y);
-    if (!EngineBoard->isEmpty(x, y))
+    int column = Board::clickToPlace(MouseData.x);
+    int row = Board::clickToPlace(MouseData.y);
+    if (!EngineBoard->isEmpty(row, column))
     {
         state = CHOOSE_PIECE;
-        this->xChoosen = x;
-        this->yChoosen = y;
+        this->rowChoose = row;
+        this->columnChoose = column;
     }
-    if (state == CHOOSE_PIECE && EngineBoard->isEmpty(x, y))
+    else if (state == CHOOSE_PIECE /*&& EngineBoard->isEmpty(row, column)*/) //NOTE: it can be nonempty (eaten) need to implement
     {
         state = CHOOSE_PLACE;
     }
     if (state == CHOOSE_PLACE)
     {
+        this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose);
         std::cout << "player choose piece and place to put" << std::endl;
         state = WAITING;
     }
-    //this->EngineBoard->move(x, y);
 }
-
 
 //run game
 void Game::run()

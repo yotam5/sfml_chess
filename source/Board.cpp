@@ -10,8 +10,10 @@ Board::Board()
     this->initBoard();
     this->initTexture();
     this->board[0][1] = new King(0, 1, this->texturePointer["WhiteKing"]);
+    //this->board[4][4] = new Queen(4,4,this->texturePointer["BlackQuee"]);
 }
 
+//destructor
 Board::~Board()
 {
     for (int i = 0; i < BOARD_SIZE; i++)
@@ -33,9 +35,12 @@ void Board::initVariables()
 }
 
 //check if availabe
-bool Board::isEmpty(int x, int y) const
+bool Board::isEmpty(int row, int column) const
 {
-    return this->board[y][x] == nullptr; //cuz array
+    if (row >= 0 && column >= 0 && row <= this->board.size() && column <= this->board.size())
+        return this->board[row][column] == nullptr; //cuz array
+    else 
+        throw std::invalid_argument("ERROR IsEmpty out of range\n");
 }
 
 //init texture
@@ -92,20 +97,24 @@ int Board::clickToPlace(double value)
     return loc;
 }
 
-//move piece FIXME
-void Board::move(int nx, int ny) //the new position need change
+//move piece one board return boolean if move has been done
+bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new position need change
 {
-    auto l = this->board[0][1]->getPossiblePositions(*board);
-    auto p = std::make_pair(nx, ny);
+    auto l = this->board[rowFrom][columnFrom]->getPossiblePositions(board);
+    auto p = std::make_pair(rowTo, columnTo); //NOTE the column is the x and row in y is opposite to click
+    //std::cout << "move to " << p.first << " " << p.second << "\n";
     for (auto k : l)
     {
         if (k == p)
         {
-            this->board[nx][ny] = this->board[0][1];
-            this->board[0][1] = nullptr;
-            this->board[nx][ny]->setPositionOnBoard(nx,ny);
+            this->board[rowTo][columnTo] = this->board[rowFrom][columnFrom];
+            this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);
+            this->board[rowTo][columnTo]->setPositionOnBoard(rowTo, columnTo);
+            this->board[rowFrom][columnFrom] = nullptr;
+            return true;
         }
     }
+    return false;
 }
 
 //init board

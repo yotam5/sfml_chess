@@ -11,7 +11,7 @@ class King : public Piece
 public:
     King(int posX, int posY, const sf::Texture *texture, std::string name = "King");
     ~King();
-    std::vector<std::pair<int, int>> getPossiblePositions(const Piece board[8][8] const;
+    std::vector<std::pair<int, int>> getPossiblePositions(const std::array<std::array<Piece*,8>,8> &board) const;
     void initVariables();
 
 private:

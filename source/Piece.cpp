@@ -6,13 +6,13 @@
 //https://www.iloveimg.com/crop-image
 
 //constructor
-Piece::Piece(int posX, int posY, const sf::Texture *texture, std::string name)
+Piece::Piece(int row, int column, const sf::Texture *texture, std::string name)
 {
     this->setName(name);
     this->sprite.setTexture(*texture);
-    this->sprite.setPosition(posY * 80, posX * 80); //NOTE: because of coordinate its (Y,X)
-    this->locationOnBoard.first = posX;             //FIXME just for any case remember
-    this->locationOnBoard.second = posY;
+    this->sprite.setPosition(column * 80, row * 80); //NOTE: because of coordinate its (Y,X)
+    this->locationOnBoard.first = row;               //FIXME just for any case remember
+    this->locationOnBoard.second = column;
 }
 
 Piece::Piece()
@@ -25,15 +25,15 @@ Piece::~Piece()
 }
 
 //set position
-void Piece::setPosition(double x, double y, bool arrayMode)
+void Piece::setPosition(double row, double column, bool arrayMode)
 {
     if (!arrayMode)
     {
-        this->sprite.setPosition(y * 80, x * 80);
+        this->sprite.setPosition(column * 80, row * 80);
     }
     else
     {
-        this->sprite.setPosition(x * 80, y * 80);
+        this->sprite.setPosition(row * 80, column * 80);
     }
 }
 
@@ -44,10 +44,10 @@ std::pair<int, int> Piece::getPositionOnBoard() const
 }
 
 //set position on board
-void Piece::setPositionOnBoard(int x, int y)
+void Piece::setPositionOnBoard(int row, int column)
 {
-    this->locationOnBoard.first = x;
-    this->locationOnBoard.second = y;
+    this->locationOnBoard.first = row;
+    this->locationOnBoard.second = column;
 }
 
 //render
@@ -63,9 +63,9 @@ void Piece::setName(std::string name)
 }
 
 //check if the move on board
-bool Piece::validateOnBoard(int x, int y)
+bool Piece::validateOnBoard(int x, int y) //FIXME
 {
-    if(x >=0 && x < BOARD_LENGTH && y >=0 && y << BOARD_LENGTH)
+    if (x >= 0 && x < BOARD_LENGTH && y >= 0 && y < BOARD_LENGTH)
     {
         return true;
     }

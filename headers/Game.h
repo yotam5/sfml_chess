@@ -6,7 +6,7 @@
 #include <SFML/System.hpp>
 
 #include "../source/Board.cpp"
-
+#include "../source/Board.cpp"
 //c++
 #include <map>
 #include <iostream>
@@ -47,8 +47,8 @@ private:
     void handleTurns();
 
     States state = WAITING;
-    int xChoosen;
-    int yChoosen;
+    int rowChoose;
+    int columnChoose;
 public:
     Game();
     virtual ~Game();

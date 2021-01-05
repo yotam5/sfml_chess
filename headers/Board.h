@@ -7,6 +7,8 @@
 
 #include "../source/Piece.cpp"
 #include "../source/King.cpp"
+#include "../source/Queen.cpp"
+
 
 #include <map>
 #include <array>
@@ -28,7 +30,7 @@ public:
     void startGame();
     void draw(sf::RenderTarget &target) const;
     static int clickToPlace(double);
-    void move(int x, int y);
+    bool move(int rowTo, int columnTo, int rowFrom, int columnFrom);
     bool isEmpty(int x, int y) const;
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
@@ -48,7 +50,7 @@ private:
     void initBoard();
     void initVariables();
     void initTexture();
-    Piece *board[BOARD_SIZE][BOARD_SIZE];
+    std::array<std::array<Piece*,8>,8> board;
     std::map<std::string, sf::Texture *> texturePointer;
 };
 

@@ -36,12 +36,12 @@ public:
     virtual void render(sf::RenderTarget &target);
     const sf::Vector2f &getPosition() const;
     std::pair<int, int> getPositionOnBoard() const;
-    void setPositionOnBoard(int x, int y);
+    void setPositionOnBoard(int row, int column);
 
     //calculate all posssible positions
-    virtual std::vector<std::pair<int, int>> getPossiblePositions(const Piece* board[8][8]) const = 0; //array
+    virtual std::vector<std::pair<int, int>> getPossiblePositions(const std::array<std::array<Piece*,8>,8> &board) const = 0; //array
     virtual void setPosition(double x, double y, bool arrayMode = false);
-    virtual void initVariables() = 0;
+    //virtual void initVariables() = 0;
     //change pos and more stuff?
 };
 

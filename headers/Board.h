@@ -8,7 +8,7 @@
 #include "../source/Piece.cpp"
 #include "../source/King.cpp"
 #include "../source/Queen.cpp"
-
+#include "../source/Pawn.cpp"
 
 #include <map>
 #include <array>
@@ -32,7 +32,7 @@ public:
     static int clickToPlace(double);
     bool move(int rowTo, int columnTo, int rowFrom, int columnFrom);
     bool isEmpty(int x, int y) const;
-    const Piece* operator()(int row, int col) const;
+    const Piece *operator()(int row, int col) const;
     Color getColor(int row, int col) const;
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
@@ -52,7 +52,8 @@ private:
     void initBoard();
     void initVariables();
     void initTexture();
-    std::array<std::array<Piece*,8>,8> board;
+    void initBoardPieces(Color color, int row, int add, std::string &order); //FIXME implemet this!
+    std::array<std::array<Piece *, 8>, 8> board;
     std::map<std::string, sf::Texture *> texturePointer;
 };
 

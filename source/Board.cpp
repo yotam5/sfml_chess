@@ -9,8 +9,7 @@ Board::Board()
     this->initVariables();
     this->initBoard();
     this->initTexture();
-    this->board[0][1] = new King(0, 1, this->texturePointer["WhiteKing"],WHITE);
-    this->board[4][4] = new Queen(4,4,this->texturePointer["BlackQueen"],BLACK);
+    this->startGame();
 }
 
 //destructor
@@ -39,7 +38,7 @@ bool Board::isEmpty(int row, int column) const
 {
     if (row >= 0 && column >= 0 && row <= this->board.size() && column <= this->board.size())
         return this->board[row][column] == nullptr; //cuz array
-    else 
+    else
         throw std::invalid_argument("ERROR IsEmpty out of range\n");
 }
 
@@ -74,10 +73,31 @@ void Board::draw(sf::RenderTarget &target) const
 //init game
 void Board::startGame() //NOTE: need all classes before that
 {
+
+    int row = 6;
+    for (int column = 0; column < 8; column++)
+    {
+        this->board[row][column] = new Pawn(row, column, this->texturePointer["WhitePawn"], WHITE);
+    }
+    row = 1;
+    for (int column = 0; column < 8; column++)
+    {
+        this->board[row][column] = new Pawn(row, column, this->texturePointer["BlackPawn"], BLACK);
+    }
+    /*
     std::array<std::string, 16> order = {
         "Rook", "Knight", "Bishop", "Queen", "King", "Knight", "Bishop", "Rook",
         "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"};
-    std::string prefix = "White"; //TODO: implement loading game pieces
+    std::string prefix = "Black"; //TODO: implement loading game pieces
+    for (int i = 0; i < 2; i++)
+    {
+        for (int k = 0; k < order.size(); k++)
+        {
+
+        }
+        prefix = "White";
+    }
+    */
 }
 
 //click to position on board
@@ -98,7 +118,7 @@ int Board::clickToPlace(double value)
 }
 
 //overload subscript
-const Piece* Board::operator()(int row, int col) const
+const Piece *Board::operator()(int row, int col) const
 {
     return this->board[row][col];
 }
@@ -117,10 +137,11 @@ bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new
     //std::cout << "move to " << p.first << " " << p.second << "\n";
     for (auto k : l)
     {
+        std::cout << k.first << " " << k.second << "\n";
         if (k == p)
         {
-            std::cout << rowTo << columnTo <<"f"<<std::endl;
-            if(this->board[rowTo][columnTo] != nullptr) //NOTE make this a function for general eat cases
+            std::cout << rowTo << columnTo << "f" << std::endl;
+            if (this->board[rowTo][columnTo] != nullptr) //NOTE make this a function for general eat cases
             {
                 delete this->board[rowTo][columnTo];
                 this->board[rowTo][columnTo] = nullptr;

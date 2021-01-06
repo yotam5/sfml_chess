@@ -93,6 +93,7 @@ void Game::handleTurns()
     if (!EngineBoard->isEmpty(row, column) &&
         EngineBoard->getColor(row, column) == this->currentPlayer) //FIXME ?
     {
+        std::cout << (*EngineBoard)(row,column)->getName() << std::endl;
         this->currentState = CHOOSE_PIECE;
         this->rowChoose = row;
         this->columnChoose = column;

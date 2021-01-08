@@ -74,32 +74,64 @@ void Board::draw(sf::RenderTarget &target) const
 void Board::startGame() //NOTE: need all classes before that
 {
 
-    int row = 6;
-    for (int column = 0; column < 8; column++)
-    {
-        this->board[row][column] = new Pawn(row, column, this->texturePointer["WhitePawn"], WHITE);
-    }
-    row = 1;
-    for (int column = 0; column < 8; column++)
-    {
-        this->board[row][column] = new Pawn(row, column, this->texturePointer["BlackPawn"], BLACK);
-    }
+    std::array<char, 16> order = {
+        'r', 'k', 'b', 'Q', 'K', 'b', 'k', 'r',
+        'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'};
 
-    this->board[0][0] = new Rook(0, 0, this->texturePointer["WhiteRook"], WHITE);
-    /*
-    std::array<std::string, 16> order = {
-        "Rook", "Knight", "Bishop", "Queen", "King", "Knight", "Bishop", "Rook",
-        "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"};
     std::string prefix = "Black"; //TODO: implement loading game pieces
+    Color color = BLACK;
+
+    int row = 0;
+    int column = 0;
     for (int i = 0; i < 2; i++)
     {
         for (int k = 0; k < order.size(); k++)
         {
+            if (column == 8)
+            {
+                column = 0;
+                row += (color == BLACK) ? 1 : -1;
+            }
+            auto expr = order[k];
+            switch (expr)
+            {
+            case 'p':
+                board[row][column] = new Pawn(row, column,
+                                              this->texturePointer[prefix + "Pawn"], color);
+                column += 1;
+                break;
+            case 'r':
+                board[row][column] = new Rook(row, column,
+                                              this->texturePointer[prefix + "Rook"], color);
+                column += 1;
+                break;
+            case 'b':
+                board[row][column] = new Bishop(row, column,
+                                                this->texturePointer[prefix + "Bishop"], color);
+                column += 1;
+                break;
+            case 'k':
+                board[row][column] = new Knight(row, column,
+                                                this->texturePointer[prefix + "Knight"], color);
+                column += 1;
+                break;
 
+            case 'K':
+                board[row][column] = new King(row, column,
+                                              this->texturePointer[prefix + "King"], color);
+                column += 1;
+                break;
+            case 'Q':
+                board[row][column] = new Queen(row, column,
+                                               this->texturePointer[prefix + "Queen"], color);
+                column += 1;
+                break;
+            }
         }
         prefix = "White";
+        color = WHITE;
+        row = 8;
     }
-    */
 }
 
 //click to position on board

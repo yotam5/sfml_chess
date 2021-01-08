@@ -10,6 +10,8 @@
 #include "../source/Queen.cpp"
 #include "../source/Pawn.cpp"
 #include "../source/Rook.cpp"
+#include "../source/Bishop.cpp"
+#include "../source/Knight.cpp"
 
 #include <map>
 #include <array>

@@ -9,6 +9,7 @@
 #include "../source/King.cpp"
 #include "../source/Queen.cpp"
 #include "../source/Pawn.cpp"
+#include "../source/Rook.cpp"
 
 #include <map>
 #include <array>

@@ -84,6 +84,8 @@ void Board::startGame() //NOTE: need all classes before that
     {
         this->board[row][column] = new Pawn(row, column, this->texturePointer["BlackPawn"], BLACK);
     }
+
+    this->board[0][0] = new Rook(0, 0, this->texturePointer["WhiteRook"], WHITE);
     /*
     std::array<std::string, 16> order = {
         "Rook", "Knight", "Bishop", "Queen", "King", "Knight", "Bishop", "Rook",

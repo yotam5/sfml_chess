@@ -16,6 +16,12 @@ Board::Board()
     this->kingsPointers[1] = board[7][4];
 }
 
+//check for checkmate
+bool Board::isCheckMate() const
+{
+    
+}
+
 //check if in chess one of the kings
 bool Board::isInChess(Color color) const
 {
@@ -208,34 +214,45 @@ Color Board::getColor(int row, int col) const
 //move piece one board return boolean if move has been done
 bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new position need change
 {
-    //NOTE improve?
-    auto l = this->board[rowFrom][columnFrom]->getPossiblePositions(board);
+    auto moves = this->board[rowFrom][columnFrom]->getPossiblePositions(board);
     auto p = std::make_pair(rowTo, columnTo);
 
     if (this->board[rowTo][columnTo] != nullptr &&
-        this->board[rowTo][columnTo]->getName() == "King") //cant eat king
+            this->board[rowTo][columnTo]->getName() == "King" ||
+        this->board[rowFrom][columnFrom] == nullptr) //cant eat king nor move nullptr piece
     {
         return false;
     }
-    //std::cout << "move to " << p.first << " " << p.second << "\n";
-    for (auto k : l)
+    for (auto move : moves)
     {
-        //std::cout << k.first << " " << k.second << "\n";
-        if (k == p)
+        if (move == p)
         {
-            if (this->board[rowTo][columnTo] != nullptr)
-            {
-                //TODO need to do that if chess must make move to stop it
-                delete this->board[rowTo][columnTo];
-                this->board[rowTo][columnTo] = nullptr;
-            }
+            //TODO detect check mate!
+            auto saveTo = this->board[rowTo][columnTo];
+            this->board[rowTo][columnTo] = nullptr;
             this->board[rowTo][columnTo] = this->board[rowFrom][columnFrom];
-            this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);
             this->board[rowTo][columnTo]->setPositionOnBoard(rowTo, columnTo);
             this->board[rowFrom][columnFrom] = nullptr;
-            this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
-            chess = this->isInChess(this->currentPlayer);
-            return true;
+
+            if (isInChess(this->currentPlayer)) //if the move make open to chess, illegal
+            {
+                this->board[rowFrom][columnFrom] = this->board[rowTo][columnTo];
+                this->board[rowFrom][columnFrom]->setPositionOnBoard(rowFrom, columnFrom);
+                this->board[rowTo][columnTo] = saveTo;
+                return false;
+            }
+            else if (chess && !isInChess(this->currentPlayer) || !chess) //if move stopped chess or legall
+            {
+                delete saveTo;
+                this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);
+                this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
+                chess = this->isInChess(this->currentPlayer);
+                return true;
+            }
+            else
+            {
+                std::cout << "ERROR in board nor chess/legall move\n";
+            }
         }
     }
     return false;

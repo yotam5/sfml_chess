@@ -15,7 +15,6 @@
 
 #include <map>
 #include <array>
-#include <tuple>
 #include <string>
 
 #include <SFML/Graphics.hpp>
@@ -58,6 +57,7 @@ private:
     void initBoard();
     void initVariables();
     void initTexture();
+    bool isCheckMate() const;
     std::array<std::array<Piece *, 8>, 8> board;
     std::map<std::string, sf::Texture *> texturePointer;
     std::array<Piece *, 2> kingsPointers; //(black, white)

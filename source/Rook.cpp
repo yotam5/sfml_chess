@@ -31,7 +31,6 @@ std::vector<std::pair<int, int>> Rook::getPossiblePositions(const std::array<std
         {
             row += k.first;
             column += k.second;
-            //std::cout << "p" << row << " " << column << "\n";
             if (Piece::validateOnBoard(row, column))
             {
                 locations.push_back(std::make_pair(row, column));

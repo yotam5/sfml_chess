@@ -48,8 +48,7 @@ public:
     //calculate all posssible positions
     virtual std::vector<std::pair<int, int>> getPossiblePositions(const std::array<std::array<Piece *, 8>, 8> &board) const = 0; //array
     virtual void setPosition(double x, double y, bool arrayMode = false);
-    //virtual void initVariables() = 0;
-    //change pos and more stuff?
+
 };
 
 #endif

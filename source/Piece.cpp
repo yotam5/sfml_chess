@@ -10,8 +10,8 @@ Piece::Piece(int row, int column, const sf::Texture *texture,Color color, std::s
 {
     this->setName(name);
     this->sprite.setTexture(*texture);
-    this->sprite.setPosition(column * 80, row * 80); //NOTE: because of coordinate its (Y,X)
-    this->locationOnBoard.first = row;               //FIXME just for any case remember
+    this->sprite.setPosition(column * 80, row * 80); 
+    this->locationOnBoard.first = row;               
     this->locationOnBoard.second = column;
     this->color = color;
 }

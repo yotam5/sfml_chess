@@ -10,6 +10,44 @@ Board::Board()
     this->initBoard();
     this->initTexture();
     this->startGame();
+
+    //pointers to kings
+    this->kingsPointers[0] = board[0][4]; //FIXME segment falt ?
+    this->kingsPointers[1] = board[7][4];
+}
+
+//check if in chess one of the kings
+bool Board::isInChess(Color color) const
+{
+    //kings current positions
+    auto currentKingPointer = this->kingsPointers[(color == WHITE) ? 1 : 0];
+    auto currentKingPos = currentKingPointer->getPositionOnBoard();
+
+    //int counter = 0;
+    for (int i = 0; i < BOARD_LENGTH; i++)
+    {
+        for (int k = 0; k < BOARD_SIZE; k++)
+        {
+            auto currentPiece = board[i][k];
+            if (currentPiece == nullptr || currentPiece->getColor() == color)
+            {
+                continue;
+            }
+            auto piecePoses = currentPiece->getPossiblePositions(board);
+            for (auto pos : piecePoses)
+            {
+                //counter++;
+                if (currentKingPos == pos)
+                {
+                    std::cout << "chess! "
+                              << " " << board[i][k]->getName() << std::endl;
+                    return true;
+                }
+            }
+        }
+    }
+    //std::cout << counter << "\n";
+    return false;
 }
 
 //destructor
@@ -31,6 +69,8 @@ Board::~Board()
 //init variables
 void Board::initVariables()
 {
+    this->kingsPointers[0] = nullptr;
+    this->kingsPointers[1] = nullptr;
 }
 
 //check if availabe
@@ -70,15 +110,15 @@ void Board::draw(sf::RenderTarget &target) const
     }
 }
 
-//init game
-void Board::startGame() //NOTE: need all classes before that
+//init game pieces on board
+void Board::startGame()
 {
 
     std::array<char, 16> order = {
         'r', 'k', 'b', 'Q', 'K', 'b', 'k', 'r',
         'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'};
 
-    std::string prefix = "Black"; //TODO: implement loading game pieces
+    std::string prefix = "Black";
     Color color = BLACK;
 
     int row = 0;
@@ -166,20 +206,20 @@ Color Board::getColor(int row, int col) const
 //move piece one board return boolean if move has been done
 bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new position need change
 {
+    //NOTE improve?
     auto l = this->board[rowFrom][columnFrom]->getPossiblePositions(board);
-    auto p = std::make_pair(rowTo, columnTo); //NOTE the column is the x and row in y is opposite to click
+    auto p = std::make_pair(rowTo, columnTo);
     //std::cout << "move to " << p.first << " " << p.second << "\n";
     for (auto k : l)
     {
-        std::cout << k.first << " " << k.second << "\n";
+        //std::cout << k.first << " " << k.second << "\n";
         if (k == p)
         {
-            std::cout << rowTo << columnTo << "f" << std::endl;
-            if (this->board[rowTo][columnTo] != nullptr) //NOTE make this a function for general eat cases
+            if (this->board[rowTo][columnTo] != nullptr)
             {
                 delete this->board[rowTo][columnTo];
                 this->board[rowTo][columnTo] = nullptr;
-                std::cout << "the queen ate" << std::endl;
+                std::cout << "some one is eaten" << std::endl;
             }
             this->board[rowTo][columnTo] = this->board[rowFrom][columnFrom];
             this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);

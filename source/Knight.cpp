@@ -37,11 +37,10 @@ std::vector<std::pair<int, int>> Knight::getPossiblePositions(const std::array<s
             }
             row += option.first;
             column += option.second;
-            std::cout << row << " " << column << "\n";
             if (Piece::validateOnBoard(row, column))
             {
                 if (board[row][column] != nullptr &&
-                    board[row][column]->getColor() != Piece::getColor() //NOTE to do color none?
+                    board[row][column]->getColor() != Piece::getColor() 
                     || board[row][column] == nullptr) 
                 {
                     locations.push_back(std::make_pair(row, column));

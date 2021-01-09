@@ -52,7 +52,7 @@ Game::~Game()
     {
         delete i.second;
     }
-    delete EngineBoard; //NOTE: check out segment fault tmporarly
+    delete EngineBoard;
     delete boardTexture;
 }
 
@@ -89,16 +89,16 @@ void Game::handleTurns()
     //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
     int column = Board::clickToPlace(MouseData.x);
     int row = Board::clickToPlace(MouseData.y);
-
+    
     if (!EngineBoard->isEmpty(row, column) &&
-        EngineBoard->getColor(row, column) == this->currentPlayer) //FIXME ?
+        EngineBoard->getColor(row, column) == this->currentPlayer)
     {
-        std::cout << (*EngineBoard)(row,column)->getName() << std::endl;
+        std::cout << (*EngineBoard)(row, column)->getName() << std::endl;
         this->currentState = CHOOSE_PIECE;
         this->rowChoose = row;
         this->columnChoose = column;
     }
-    else if (this->currentState == CHOOSE_PIECE ) //NOTE: it can be nonempty (eaten) need to implement
+    else if (this->currentState == CHOOSE_PIECE)
     {
         this->currentState = CHOOSE_PLACE;
     }
@@ -112,6 +112,7 @@ void Game::handleTurns()
             this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
         }
     }
+    std::cout << this->EngineBoard->isInChess(WHITE) << "\n";
 }
 
 //run game

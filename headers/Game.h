@@ -45,11 +45,11 @@ private:
     //general
     void handleTurns();
 
-    States currentState = WAITING;
-    Color currentPlayer = WHITE;
-    int rowChoose;
+    States currentState = WAITING; //first game state
+    Color currentPlayer = WHITE; //first to play
+    int rowChoose; 
     int columnChoose;
-    sf::View view;
+    bool chess = false; //is there any current chess
 public:
     Game();
     virtual ~Game();

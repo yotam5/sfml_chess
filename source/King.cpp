@@ -20,13 +20,11 @@ std::vector<std::pair<int, int>> King::getPossiblePositions(const std::array<std
 {
     std::vector<std::pair<int, int>> locations;
     auto locationOnBoard = Piece::getPositionOnBoard();
-    //std::cout << "location is " << locationOnBoard.first << " " << locationOnBoard.second << "\n";
     int row, column;
     for (auto k : this->directions)
     {
         row = locationOnBoard.first + k.first;
         column = locationOnBoard.second + k.second;
-        //std::cout << "p" << row << " " << column << "\n";
         if (Piece::validateOnBoard(row, column))
         {
             locations.push_back(std::make_pair(row, column));

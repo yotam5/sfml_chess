@@ -1,5 +1,0 @@
-
-TODO - implement a board class / game engine
-TODO - give pieces the ability to move on board
-TODO - check pieces movment
-TODO - load init game and crop the images

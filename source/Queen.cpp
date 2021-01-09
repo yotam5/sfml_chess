@@ -32,7 +32,6 @@ std::vector<std::pair<int, int>> Queen::getPossiblePositions(const std::array<st
         {
             row += k.first;
             column += k.second;
-            //std::cout << "p" << row << " " << column << "\n";
             if (Piece::validateOnBoard(row, column))
             {
                 locations.push_back(std::make_pair(row, column));

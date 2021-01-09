@@ -37,6 +37,7 @@ public:
     bool isEmpty(int x, int y) const;
     const Piece *operator()(int row, int col) const;
     Color getColor(int row, int col) const;
+    bool isInChess(Color color) const;
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
                                                      "BlackKing",
@@ -55,9 +56,9 @@ private:
     void initBoard();
     void initVariables();
     void initTexture();
-    void initBoardPieces(Color color, int row, int add, std::string &order); //FIXME implemet this!
     std::array<std::array<Piece *, 8>, 8> board;
     std::map<std::string, sf::Texture *> texturePointer;
+    std::array<Piece*,2> kingsPointers; //(black, white)
 };
 
 #endif

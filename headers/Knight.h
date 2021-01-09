@@ -8,7 +8,7 @@
 class Knight: public Piece
 {
 public:
-    Knight(int posX, int posY, const sf::Texture *texture, Color color, std::string name = "Knight_H");
+    Knight(int posX, int posY, const sf::Texture *texture, Color color, std::string name = "Knight");
     ~Knight();
     std::vector<std::pair<int, int>> getPossiblePositions(const std::array<std::array<Piece*,8>,8> &board) const;
 

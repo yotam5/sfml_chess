@@ -12,7 +12,7 @@ Board::Board()
     this->startGame();
 
     //pointers to kings
-    this->kingsPointers[0] = board[0][4]; //FIXME segment falt ?
+    this->kingsPointers[0] = board[0][4];
     this->kingsPointers[1] = board[7][4];
 }
 
@@ -39,8 +39,8 @@ bool Board::isInChess(Color color) const
                 //counter++;
                 if (currentKingPos == pos)
                 {
-                    std::cout << "chess! "
-                              << " " << board[i][k]->getName() << std::endl;
+                    /*std::cout << "chess! "
+                              << " " << board[i][k]->getName() << std::endl;*/
                     return true;
                 }
             }
@@ -71,6 +71,8 @@ void Board::initVariables()
 {
     this->kingsPointers[0] = nullptr;
     this->kingsPointers[1] = nullptr;
+    this->chess = false;
+    this->currentPlayer = WHITE;
 }
 
 //check if availabe
@@ -209,6 +211,12 @@ bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new
     //NOTE improve?
     auto l = this->board[rowFrom][columnFrom]->getPossiblePositions(board);
     auto p = std::make_pair(rowTo, columnTo);
+
+    if (this->board[rowTo][columnTo] != nullptr &&
+        this->board[rowTo][columnTo]->getName() == "King") //cant eat king
+    {
+        return false;
+    }
     //std::cout << "move to " << p.first << " " << p.second << "\n";
     for (auto k : l)
     {
@@ -217,14 +225,16 @@ bool Board::move(int rowTo, int columnTo, int rowFrom, int columnFrom) //the new
         {
             if (this->board[rowTo][columnTo] != nullptr)
             {
+                //TODO need to do that if chess must make move to stop it
                 delete this->board[rowTo][columnTo];
                 this->board[rowTo][columnTo] = nullptr;
-                std::cout << "some one is eaten" << std::endl;
             }
             this->board[rowTo][columnTo] = this->board[rowFrom][columnFrom];
             this->board[rowTo][columnTo]->setPosition(rowTo, columnTo);
             this->board[rowTo][columnTo]->setPositionOnBoard(rowTo, columnTo);
             this->board[rowFrom][columnFrom] = nullptr;
+            this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
+            chess = this->isInChess(this->currentPlayer);
             return true;
         }
     }

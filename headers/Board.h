@@ -15,6 +15,7 @@
 
 #include <map>
 #include <array>
+#include <tuple>
 #include <string>
 
 #include <SFML/Graphics.hpp>
@@ -38,6 +39,7 @@ public:
     const Piece *operator()(int row, int col) const;
     Color getColor(int row, int col) const;
     bool isInChess(Color color) const;
+    bool canMakeMoveInChess(Color color, std::pair<int, int> move);
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
                                                      "BlackKing",
@@ -58,7 +60,10 @@ private:
     void initTexture();
     std::array<std::array<Piece *, 8>, 8> board;
     std::map<std::string, sf::Texture *> texturePointer;
-    std::array<Piece*,2> kingsPointers; //(black, white)
+    std::array<Piece *, 2> kingsPointers; //(black, white)
+    std::vector<std::tuple<std::string, int, int>> trackMoves;
+    bool chess;
+    Color currentPlayer;
 };
 
 #endif

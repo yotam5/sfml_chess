@@ -10,8 +10,8 @@ Piece::Piece(int row, int column, const sf::Texture *texture,Color color, std::s
 {
     this->setName(name);
     this->sprite.setTexture(*texture);
-    this->sprite.setPosition(column * 80, row * 80); 
-    this->locationOnBoard.first = row;               
+    this->sprite.setPosition(column * 80, row * 80);
+    this->locationOnBoard.first = row;
     this->locationOnBoard.second = column;
     this->color = color;
 }
@@ -76,7 +76,7 @@ void Piece::setName(std::string name)
 }
 
 //check if the move on board
-bool Piece::validateOnBoard(int x, int y) //FIXME
+bool Piece::validateOnBoard(int x, int y) 
 {
     if (x >= 0 && x < BOARD_LENGTH && y >= 0 && y < BOARD_LENGTH)
     {

@@ -105,14 +105,15 @@ void Game::handleTurns()
     if (this->currentState == CHOOSE_PLACE)
     {
         //if the move is valid
-        if (this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose))
+        if (/*!chess &&*/ this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose))
         {
             std::cout << "player choose piece and place to put" << std::endl;
             this->currentState = WAITING;
             this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
         }
+        this->chess = EngineBoard->isInChess(currentPlayer);
     }
-    std::cout << this->EngineBoard->isInChess(WHITE) << "\n";
+    //std::cout << this->EngineBoard->isInChess(WHITE) << "\n";
 }
 
 //run game

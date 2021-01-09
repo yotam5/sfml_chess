@@ -31,7 +31,8 @@ std::vector<std::pair<int, int>> Knight::getPossiblePositions(const std::array<s
         for (auto option : this->directions)
         {
             if (k == UP && option == DOWN || option == UP && k == DOWN ||
-                k == LEFT && option == DOWN || option == LEFT && k == RIGHT)
+                k == LEFT && option == DOWN || option == LEFT && k == RIGHT ||
+                k == UP && option == UP || k == DOWN && option == DOWN)
             {
                 continue;
             }

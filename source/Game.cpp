@@ -11,11 +11,17 @@ void Game::initWindow()
     this->window->setVerticalSyncEnabled(false);
 }
 
+//update game all updats
 void Game::update()
 {
+    if (this->EngineBoard->isCheckMate(this->currentPlayer))
+    {
+        this->chess = true;
+    }
     this->updatePollEvents();
 }
 
+//constructor
 Game::Game()
 {
     this->initWindow();
@@ -91,6 +97,7 @@ void Game::render()
     sleep(sleepTime);
 }
 
+//update events
 void Game::updatePollEvents()
 {
     sf::Event ev;
@@ -115,10 +122,6 @@ void Game::handleTurns()
     //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
     int column = Board::clickToPlace(MouseData.x);
     int row = Board::clickToPlace(MouseData.y);
-    if (this->EngineBoard->isCheckMate(this->currentPlayer))
-    {
-        this->chess = true;
-    }
     if (!chess)
     {
         if (!EngineBoard->isEmpty(row, column) &&
@@ -140,7 +143,7 @@ void Game::handleTurns()
                 this->currentState = WAITING;
                 this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
             }
-            this->chess = EngineBoard->isInChess(currentPlayer);
+            //this->chess = EngineBoard->isInChess(currentPlayer); //FIXME
         }
     }
 }

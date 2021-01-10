@@ -27,6 +27,10 @@ std::vector<std::pair<int, int>> King::getPossiblePositions(const std::array<std
         column = locationOnBoard.second + k.second;
         if (Piece::validateOnBoard(row, column))
         {
+            if(board[row][column] != nullptr && board[row][column]->getColor() == Piece::getColor())
+            {
+                continue;
+            }
             locations.push_back(std::make_pair(row, column));
         }
     }

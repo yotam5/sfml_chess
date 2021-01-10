@@ -1,11 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
 
+#define WIDTH 640
+#define HEIGHT 640
+
 //sfml
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+//mine
 #include "../source/Board.cpp"
+#include "../source/Menu.cpp"
+
 //c++
 #include <map>
 #include <iostream>
@@ -13,6 +19,7 @@
 //NOTE: need to include here the source for it to work also use pragma once on classes
 
 //make bool turn and draw new after click?
+
 
 class Game
 {

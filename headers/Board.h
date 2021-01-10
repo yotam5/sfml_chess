@@ -21,9 +21,6 @@
 #include <SFML/System.hpp>
 #define BOARD_SIZE 8
 
-//TODO: initialize game and board, give each piece texture, name and position
-//TODO: convert board here position to the board 640x640
-
 //board class handle game in array
 class Board
 {
@@ -33,12 +30,17 @@ public:
     void startGame();
     void draw(sf::RenderTarget &target) const;
     static int clickToPlace(double);
-    bool move(int rowTo, int columnTo, int rowFrom, int columnFrom);
-    bool isEmpty(int x, int y) const;
-    const Piece *operator()(int row, int col) const;
     Color getColor(int row, int col) const;
+
+    //booleans
     bool isInChess(Color color) const;
     bool canMakeMoveInChess(Color color, std::pair<int, int> move);
+    bool isCheckMate(Color color);
+    bool move(int rowTo, int columnTo, int rowFrom, int columnFrom);
+    bool isEmpty(int x, int y) const;
+
+    //consts
+    const Piece *operator()(int row, int col) const;
     const std::string assertsFolderName = "./asserts/";
     const std::array<std::string, 12> piecesNames = {"BlackBishop",
                                                      "BlackKing",
@@ -57,13 +59,17 @@ private:
     void initBoard();
     void initVariables();
     void initTexture();
-    bool isCheckMate() const;
+    bool doMove(int rowTo, int columnTo, int rowFrom, int columnFrom);
+    void redoLastMove(int rowTo, int columnTo, int rowFrom, int columnFrom);
+    void implementLastMove(int rowTo, int columnTo, int rowFrom, int columnFrom);
+
     std::array<std::array<Piece *, 8>, 8> board;
     std::map<std::string, sf::Texture *> texturePointer;
     std::array<Piece *, 2> kingsPointers; //(black, white)
     std::vector<std::tuple<std::string, int, int>> trackMoves;
     bool chess;
     Color currentPlayer;
+    Piece *saveTo;
 };
 
 #endif

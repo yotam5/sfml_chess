@@ -5,7 +5,7 @@
 //init window
 void Game::initWindow()
 {
-    this->window = new sf::RenderWindow(sf::VideoMode(640, 640), "Chess",
+    this->window = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), "Chess",
                                         sf::Style::Close | sf::Style::Titlebar);
     this->window->setFramerateLimit(144);
     this->window->setVerticalSyncEnabled(false);
@@ -54,6 +54,7 @@ Game::~Game()
     }
     delete EngineBoard;
     delete boardTexture;
+    delete this->window;
 }
 
 //render game
@@ -89,7 +90,10 @@ void Game::handleTurns()
     //std::cout << sf::Mouse::getPosition(*this->window).x << std::endl;
     int column = Board::clickToPlace(MouseData.x);
     int row = Board::clickToPlace(MouseData.y);
-    
+    if (this->EngineBoard->isCheckMate(this->currentPlayer))
+    {
+        std::cout << "check mate\n";
+    }
     if (!EngineBoard->isEmpty(row, column) &&
         EngineBoard->getColor(row, column) == this->currentPlayer)
     {
@@ -119,9 +123,20 @@ void Game::handleTurns()
 //run game
 void Game::run()
 {
-    while (this->window->isOpen())
+    vector<string> ops = {"Play", "Quit"}; //game options
+    Menu menu = Menu(WIDTH, HEIGHT, ops, this->window, 50, "prev.jpg");
+    int res = 0;
+    menu.run(res);
+    if (res == 0)
     {
-        this->update();
-        this->render();
+        while (this->window->isOpen())
+        {
+            this->update();
+            this->render();
+        }
+    }
+    else
+    {
+        this->window->close();
     }
 }

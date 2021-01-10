@@ -33,12 +33,14 @@ std::vector<std::pair<int, int>> Rook::getPossiblePositions(const std::array<std
             column += k.second;
             if (Piece::validateOnBoard(row, column))
             {
-                locations.push_back(std::make_pair(row, column));
-                if (board[row][column] != nullptr &&
-                    board[row][column]->getColor() != Piece::getColor()) //if reached to a solider can move after eat
+                if (board[row][column] != nullptr)
                 {
-                    break;
+                    if (board[row][column]->getColor() == Piece::getColor())
+                    {
+                        break;
+                    }
                 }
+                locations.push_back(std::make_pair(row, column));
             }
         }
     }

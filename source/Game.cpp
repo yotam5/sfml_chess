@@ -143,7 +143,6 @@ void Game::handleTurns()
             this->chess = EngineBoard->isInChess(currentPlayer);
         }
     }
-    //std::cout << this->EngineBoard->isInChess(WHITE) << "\n";
 }
 
 //run game

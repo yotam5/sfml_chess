@@ -11,6 +11,7 @@ class Menu
 public:
     Menu(int width, int height, std::vector<std::string> menuTexts,
          sf::RenderWindow *window, int textSize = 50, std::string imageName = "None");
+    Menu();
     ~Menu();
 
     void draw(sf::RenderTarget &target);

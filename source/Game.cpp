@@ -36,13 +36,28 @@ void Game::initTexture() //jpeg error~
 //initialize variables
 void Game::initVariables()
 {
+    //the window
     this->board.setTexture((*this->boardTexture));
     this->board.setPosition(0, 0);
     this->rowChoose = 0;
     this->columnChoose = 0;
+
+    //player data
     this->currentPlayer = WHITE;
     this->currentState = WAITING;
-    this->EngineBoard = new Board();
+
+    //font
+    if (!font.loadFromFile("./fonts/mrsmonster.ttf"))
+    {
+        throw std::invalid_argument("coudnt load font Game.cpp\n");
+    }
+
+    this->text.setFont(font);
+    this->text.setString("");
+    this->text.setCharacterSize(50);
+    this->text.setFillColor(sf::Color::Green);
+    this->text.setPosition(WIDTH / 5, HEIGHT / 3);
+    this->EngineBoard = new Board(); //create board
 }
 
 //destructor
@@ -63,7 +78,17 @@ void Game::render()
     this->window->clear();
     this->window->draw(board);
     this->EngineBoard->draw(*this->window);
+    int sleepTime = 0;
+    if (chess && this->text.getString() == "")
+    {
+        std::string str = "The winner is: ";
+        str += (this->currentPlayer == WHITE) ? "Black" : "White";
+        this->text.setString(str);
+        sleepTime = 5;
+    }
+    this->window->draw(this->text);
     this->window->display();
+    sleep(sleepTime);
 }
 
 void Game::updatePollEvents()
@@ -92,30 +117,31 @@ void Game::handleTurns()
     int row = Board::clickToPlace(MouseData.y);
     if (this->EngineBoard->isCheckMate(this->currentPlayer))
     {
-        std::cout << "check mate\n";
+        this->chess = true;
     }
-    if (!EngineBoard->isEmpty(row, column) &&
-        EngineBoard->getColor(row, column) == this->currentPlayer)
+    if (!chess)
     {
-        std::cout << (*EngineBoard)(row, column)->getName() << std::endl;
-        this->currentState = CHOOSE_PIECE;
-        this->rowChoose = row;
-        this->columnChoose = column;
-    }
-    else if (this->currentState == CHOOSE_PIECE)
-    {
-        this->currentState = CHOOSE_PLACE;
-    }
-    if (this->currentState == CHOOSE_PLACE)
-    {
-        //if the move is valid
-        if (this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose))
+        if (!EngineBoard->isEmpty(row, column) &&
+            EngineBoard->getColor(row, column) == this->currentPlayer)
         {
-            std::cout << "player choose piece and place to put" << std::endl;
-            this->currentState = WAITING;
-            this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
+            this->currentState = CHOOSE_PIECE;
+            this->rowChoose = row;
+            this->columnChoose = column;
         }
-        this->chess = EngineBoard->isInChess(currentPlayer);
+        else if (this->currentState == CHOOSE_PIECE)
+        {
+            this->currentState = CHOOSE_PLACE;
+        }
+        if (this->currentState == CHOOSE_PLACE)
+        {
+            //if the move is valid
+            if (this->EngineBoard->move(row, column, this->rowChoose, this->columnChoose))
+            {
+                this->currentState = WAITING;
+                this->currentPlayer = (this->currentPlayer == WHITE) ? BLACK : WHITE;
+            }
+            this->chess = EngineBoard->isInChess(currentPlayer);
+        }
     }
     //std::cout << this->EngineBoard->isInChess(WHITE) << "\n";
 }
@@ -133,10 +159,11 @@ void Game::run()
         {
             this->update();
             this->render();
+            if (this->chess)
+            {
+                break;
+            }
         }
     }
-    else
-    {
-        this->window->close();
-    }
+    this->window->close();
 }

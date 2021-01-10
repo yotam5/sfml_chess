@@ -249,7 +249,7 @@ void Board::implementLastMove(int rowTo, int columnTo, int rowFrom, int columnFr
 }
 
 //check for checkmate
-bool Board::isCheckMate(Color color) //NOTE BRUH THIS LOOP CONDITION 800IQ
+bool Board::isCheckMate(Color color) 
 {
     bool chess = this->isInChess(color);
     if (!chess)

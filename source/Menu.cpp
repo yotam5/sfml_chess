@@ -36,6 +36,11 @@ Menu::Menu(int width, int height, vector<string> menuText,
     }
 }
 
+//default
+Menu::Menu()
+{
+}
+
 //go up in menu
 void Menu::MoveUp()
 {
@@ -65,37 +70,38 @@ void Menu::run(int &save_res)
     while (window->isOpen() && !press)
     {
         while (window->pollEvent(event))
-
-            switch (event.type)
+        {
+        }
+        switch (event.type)
+        {
+        case sf::Event::KeyReleased:
+            switch (event.key.code)
             {
-            case sf::Event::KeyReleased:
-                switch (event.key.code)
+            case sf::Keyboard::Up:
+                MoveUp();
+                break;
+
+            case sf::Keyboard::Down:
+                MoveDown();
+                break;
+
+            case sf::Keyboard::Return:
+                switch (GetPressedItem())
                 {
-                case sf::Keyboard::Up:
-                    MoveUp();
+                case 0:
+                    save_res = 0;
+                    press = true;
+
                     break;
-
-                case sf::Keyboard::Down:
-                    MoveDown();
-                    break;
-
-                case sf::Keyboard::Return:
-                    switch (GetPressedItem())
-                    {
-                    case 0:
-                        save_res = 0;
-                        press = true;
-
-                        break;
-                    case 1:
-                        save_res = 1;
-                        press = true;
-                        break;
-                    }
+                case 1:
+                    save_res = 1;
+                    press = true;
                     break;
                 }
                 break;
             }
+            break;
+        }
         window->clear();
         draw(*this->window);
         window->display();
@@ -110,7 +116,7 @@ Menu::~Menu()
 //drae to target
 void Menu::draw(sf::RenderTarget &target)
 {
-    this->window->draw(this->background);
+    target.draw(this->background);
     for (int i = 0; i < this->menu.size(); i++)
     {
         target.draw(this->menu[i]);

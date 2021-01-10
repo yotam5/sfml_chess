@@ -88,7 +88,7 @@ void Game::render()
     if (chess && this->text.getString() == "")
     {
         std::string str = "The winner is: ";
-        str += (this->currentPlayer == WHITE) ? "Black" : "White";
+        str += this->EngineBoard->isInChess(WHITE) ? "Black" : "White";
         this->text.setString(str);
         sleepTime = 5;
     }

@@ -32,7 +32,7 @@ _deps
 *.smod
 
 .idea*
-
+*.vs*
 # Compiled Static libraries
 *.lai
 *.la

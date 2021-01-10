@@ -38,7 +38,7 @@ _deps
 *.la
 *.a
 *.lib
-
+*.sh
 # Executables
 *.exe
 *.out
